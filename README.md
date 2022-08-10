@@ -1,6 +1,8 @@
 1. The library in `lib` creates an `enclave.signed.so`; and
 2. The application in `app` creates an enclave from that DSO using `sgx_create_enclave_from_buffer_ex`
 
+The application then invokes the ecall `ecall_empty` but this is not working.
+
 
 ## Compilation
 
