@@ -1,5 +1,7 @@
 enclave {
 	trusted {
-		public void ecall_empty();
+		// public void ecall_empty();
+
+		public int ecall_two(int n);
 	};
 };

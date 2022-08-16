@@ -91,12 +91,20 @@ int main(void)
 	fprintf(stdout, "sgx_create_enclave: success\n");
 
 
-	ss = ecall_empty(eid);
+	// ss = ecall_empty(eid);
+	// if (SGX_SUCCESS != ss) {
+	// 	fprintf(stderr, "ecall_empty: failure (%#x)\n", ss);
+	// 	abort();
+	// }
+	// fprintf(stdout, "ecall_empty: success\n");
+
+	int result = 0;
+	ss = ecall_two(eid, &result, 7);
 	if (SGX_SUCCESS != ss) {
-		fprintf(stderr, "ecall_empty: failure (%#x)\n", ss);
+		fprintf(stderr, "ecall_two: failure (%#x)\n", ss);
 		abort();
 	}
-	fprintf(stdout, "ecall_empty: success\n");
+	fprintf(stdout, "ecall_two: success (%d)\n", result);
 
 
 	ss = sgx_destroy_enclave(eid);

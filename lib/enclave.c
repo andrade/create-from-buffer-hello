@@ -4,7 +4,12 @@
 
 #include "enclave_t.h"
 
-void ecall_empty()
+// void ecall_empty()
+// {
+// 	// empty, does nothing
+// }
+
+int ecall_two(int n)
 {
-	// empty, does nothing
+	return n * 2 + 1;
 }
