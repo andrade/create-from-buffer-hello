@@ -1,7 +1,9 @@
-1. The library in `lib` creates an `enclave.signed.so`; and
-2. The application in `app` creates an enclave from that DSO using `sgx_create_enclave_from_buffer_ex`
+# Example loading an enclave from a buffer
 
-The application then invokes the ecall `ecall_empty` but this is not working.
+1. The library in `lib` creates an `enclave.signed.so` and an `untrusted.so`; and
+2. The application in `app` creates an enclave from the trusted DSO using `sgx_create_enclave_from_buffer_ex` and loads the untrusted DSO using `dlopen`
+
+The application then invokes multiple ecalls.
 
 
 ## Compilation
@@ -29,3 +31,10 @@ Clean with:
 ```
 
 NOTE: The private key life cycle is independent of the rest of the code. Generate the private key with `$ make genkey` and remove it with `$ make delkey`. These targets uses OpenSSL.
+
+
+# License
+
+BSD-3-Clause
+
+Copyright 2022 Daniel Andrade.
