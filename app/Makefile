@@ -1,3 +1,6 @@
+# Copyright 2022 Daniel Andrade
+# SPDX-License-Identifier: BSD-3-Clause
+
 CC := gcc
 EDGER := sgx_edger8r
 SIGNER := sgx_sign

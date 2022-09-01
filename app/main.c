@@ -1,3 +1,6 @@
+// Copyright 2022 Daniel Andrade
+// SPDX-License-Identifier: BSD-3-Clause
+
 #define _POSIX_C_SOURCE 200809L
 
 #include <stdio.h>

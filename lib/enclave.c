@@ -1,3 +1,6 @@
+// Copyright 2022 Daniel Andrade
+// SPDX-License-Identifier: BSD-3-Clause
+
 #include <string.h>
 
 #include <sgx_trts.h>
