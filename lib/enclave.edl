@@ -3,8 +3,11 @@
 
 enclave {
 	trusted {
-		// public void ecall_empty();
-
+		public void ecall_empty();
 		public int ecall_two(int n);
+		public int ecall_rand();
+	};
+	untrusted {
+		void ocall_print_1(int n);
 	};
 };

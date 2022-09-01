@@ -48,11 +48,9 @@ else
 endif
 
 APP_CPPFLAGS := -I$(SGX_SDK)/include $(CPPFLAGS)
-#APP_CFLAGS := -fPIC -Wno-attributes $(CFLAGS)
-APP_CFLAGS := -rdynamic -fPIC -Wno-attributes $(CFLAGS)
+APP_CFLAGS := -fPIC -Wno-attributes $(CFLAGS)
 APP_LDFLAGS := -L$(SGX_SDK)/lib64
-#APP_LDLIBS := -l$(SGX_URTS) -l$(SGX_UAE_SERVICE)
-APP_LDLIBS := -l$(SGX_URTS) -l$(SGX_UAE_SERVICE) -Wl,--unresolved-symbols=ignore-in-object-files
+APP_LDLIBS := -l$(SGX_URTS) -l$(SGX_UAE_SERVICE) -ldl
 
 all: $(PROG)
 	$(call GOOD,,"[  MAKE  ] ","$(notdir $^)")

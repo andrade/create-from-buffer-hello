@@ -65,7 +65,14 @@ ENC_LDLIBS := \
 		-Wl,--defsym,__ImageBase=0 -Wl,--gc-sections \
 		-Wl,--version-script=enclave.lds
 
-all: enclave.signed.so
+APP_CPPFLAGS := \
+		-I$(SGX_SDK)/include \
+		$(CPPFLAGS)
+APP_CFLAGS := \
+		-fPIC -Wno-attributes \
+		$(CFLAGS)
+
+all: enclave.signed.so untrusted.so
 	$(call GOOD,,"[  MAKE  ] ","$(notdir $^)")
 
 ################################################################
@@ -141,12 +148,34 @@ enclave.signed.so: enclave.so enclave.config.xml $(KEY_PR)
 	$(call GOOD,,"[  SIGN  ] ","$<  >  $@")
 
 ################################################################
+################################ UNTRUSTED CODE
+################################################################
+
+enclave_u.c enclave_u.h: enclave.edl
+	@ $(EDGER) --untrusted $< --search-path $(SGX_SDK)/include
+	$(info [  GEN   ] $^  >  $@)
+
+enclave_u.o: enclave_u.c enclave_u.h
+
+support.o: support.c
+
+NORMAL_OBJS := enclave_u.o support.o
+
+$(NORMAL_OBJS):
+	@ $(CC) $(APP_CPPFLAGS) $(APP_CFLAGS) -c $< -o $@
+	$(info [   CC   ] $<  >  $@)
+
+untrusted.so: $(NORMAL_OBJS)
+	gcc -shared -o $@ $(APP_CPPFLAGS) $(APP_CFLAGS) $(APP_LDFLAGS) $^ $(APP_LDLIBS)
+
+################################################################
 ################################ MAINTENANCE
 ################################################################
 
 TRASH := \
-		enclave_t.c enclave_t.h $(SECURE_OBJS) $(SECURE_LIB) \
-		enclave.so enclave.signed.so
+		enclave_t.c enclave_t.h $(SECURE_OBJS) \
+		enclave_u.c enclave_u.h $(NORMAL_OBJS) \
+		enclave.so enclave.signed.so untrusted.so
 
 clean:
 	@ rm -rf $(TRASH)
